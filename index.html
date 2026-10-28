@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GO LATTE4EVER</title>
+<style>
+body{background:#fdf2f4;font-family:sans-serif;margin:0}
+.welcome{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#fdf2f4 0%,#ffe0e8 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;box-sizing:border-box}
+.welcome-title{font-size:32px;font-weight:900;color:#e9839b}
+.topbar{background:#fff;padding:8px 10px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #ffd4dd;position:sticky;top:0;z-index:50}
+.hamburger{font-size:22px;font-weight:900;background:none;border:none;cursor:pointer}
+.sec{display:none;padding:10px}.sec.active{display:block}
+.card{background:#fff;border:1px solid #ffd4dd;border-radius:10px;padding:10px;margin-top:8px}
+input,select,textarea{padding:7px;border-radius:8px;border:1px solid #ffd4dd;width:100%;margin-top:5px;box-sizing:border-box}
+.search{padding:10px;border-radius:20px;border:1px solid #e9839b;background:#fff7f9;margin-top:8px}
+.row{border:1px dashed #e9839b;border-radius:8px;padding:6px;margin-top:6px;background:#fff7f9;display:flex;gap:5px;align-items:center}
+.tbl{background:#fff;border-radius:10px;border:1px solid #ffd4dd;overflow:auto;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:11px}th,td{padding:6px;border-bottom:1px solid #eee;text-align:left}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.lock{background:#fff0f3;border:2px dashed #e9839b;border-radius:12px;padding:14px;text-align:center;margin-top:10px}
+.del{background:#ffcccc;border:1px solid #f99;border-radius:6px;padding:4px 8px;font-size:10px;margin:2px;cursor:pointer}
+.s-l{background:#d4edda;color:#155724;padding:3px 6px;border-radius:6px;font-size:10px}
+.s-b{background:#f8d7da;color:#721c24;padding:3px 6px;border-radius:6px;font-size:10px}
+body.member-mode .aksi-col{display:none}
+#mList{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.member-item{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid #ffd4dd;border-radius:20px;background:#fff7f9;font-size:12px}
+.batch-img{width:100%;height:85px;object-fit:cover;border-radius:8px;margin-top:5px;border:1px solid #ffd4dd;cursor:pointer}
+.testi-img{width:100%;height:180px;object-fit:cover;border-radius:12px;border:1px solid #ffd4dd;cursor:pointer}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;z-index:9999}
+.modal.active{display:flex}
+.modal img{max-width:95%;max-height:90%;border-radius:10px}
+.sidebar{position:fixed;top:0;left:-280px;width:260px;height:100%;background:#1a1a1a;color:#fff;z-index:100;transition:left .3s ease;padding:15px;box-sizing:border-box;overflow:auto}
+.sidebar.active{left:0}
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:99}
+.sidebar-overlay.active{display:block}
+.sidebar-item{display:flex;align-items:center;gap:12px;padding:12px 8px;border-radius:8px;cursor:pointer;margin-top:4px;font-size:14px}
+.sidebar-item.active{background:#333;color:#e9839b;font-weight:900}
+.batch-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.batch-tab{padding:6px 12px;border-radius:20px;border:1px solid #e9839b;background:#fff;font-size:11px;font-weight:800;cursor:pointer}
+.batch-tab.active{background:#e9839b;color:#fff}
+.bubble{border:2px solid #ffd4dd;background:#fff;border-radius:16px;padding:10px;margin-top:12px}
+.bubble-title{font-weight:900;font-size:14px;color:#e9839b}
+.wh-badge{background:#e9839b;color:#fff;padding:2px 8px;border-radius:10px;font-size:10px}
+.link-card{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #ffd4dd;border-radius:16px;padding:12px 14px;margin-top:10px;text-decoration:none;color:#333;font-weight:700;font-size:13px}
+.link-icon{width:42px;height:42px;border-radius:10px;background:#fff7f9;display:flex;justify-content:center;align-items:center;font-size:20px;flex-shrink:0;border:1px solid #ffd4dd}
+.link-section-title{font-weight:900;color:#e9839b;font-size:12px;margin-top:18px;letter-spacing:1px;text-transform:uppercase}
+</style></head>
+<body class="member-mode">
+<div id="welcomeScreen" class="welcome"><div style="font-size:50px">🧁✨</div><div class="welcome-title">WELCOME TO<br>GO LATTE4EVER</div><button style="background:#e9839b;color:#fff;border:none;padding:14px 40px;border-radius:30px;font-weight:900;font-size:15px;cursor:pointer;margin-top:15px" onclick="document.getElementById('welcomeScreen').style.display='none'">Masuk ke Menu →</button></div>
+<div class="topbar"><button class="hamburger" onclick="toggleSidebar()">☰</button><div style="font-weight:900">GO LATTE4EVER</div></div>
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+<div id="sidebar" class="sidebar">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><div style="font-weight:900">GO LATTE4EVER</div><div style="font-size:20px;cursor:pointer" onclick="toggleSidebar()">✕</div></div>
+<div class="sidebar-title">MENU UTAMA</div>
+<div class="sidebar-item active" id="sb-home" onclick="goSide('home')">🏠 HOME</div>
+<div class="sidebar-item" id="sb-tagihan" onclick="goSide('tagihan')">💰 TAGIHAN</div>
+<div class="sidebar-item" id="sb-tax" onclick="goSide('tax')">🧾 TAX</div>
+<div class="sidebar-item" id="sb-proofco" onclick="goSide('proofco')">📂 PROOF CO</div>
+<div class="sidebar-item" id="sb-batch" onclick="goSide('batch')">🖼️ BATCH PROOF</div>
+<div class="sidebar-item" id="sb-proofwh" onclick="goSide('proofwh')">🗺️ PROOF ARRIVED</div>
+<div class="sidebar-item" id="sb-arrive" onclick="goSide('arrive')">📦 STATUS BARANG</div>
+<div class="sidebar-item" id="sb-testi" onclick="goSide('testi')">💌 TESTIMONI</div>
+<div class="sidebar-title">ADMIN</div>
+<div class="sidebar-item" id="sb-admin" onclick="goSide('admin')">⚙️ ADMIN</div>
+<div class="sidebar-item" id="sb-logout" onclick="logoutAdmin()" style="display:none;color:#ffb3b3">🚪 LOGOUT</div>
+</div>
+<div id="home" class="sec active">
+<div style="text-align:center;padding:20px 10px">
+<div style="font-size:50px">☕</div>
+<div style="font-weight:900;color:#e9839b;font-size:22px;line-height:1.3;margin-top:8px">𓂃 ࣪˖ Welcome to GO LATTE4EVER ♡</div>
+<div style="font-size:13px;color:#888;margin-top:6px;letter-spacing:0.5px;text-align:center">your cozy little corner for k-pop treasures. 🎀 ~ Since 2024</div>
+</div>
+<div class="card" style="line-height:1.8;font-size:13px;color:#555;text-align:center;padding:16px">
+<div style="text-align:center">
+Hello, fellow collectors! We're GO LATTE4EVER, a Group Order dedicated to helping you bring your favorite K-pop goodies closer to you.<br><br>
+୨୧ <b>What we offer</b><br>
+♡ K-pop albums & photocards<br>
+♡ Official merchandise & lightsticks<br>
+♡ A variety of goodies for your collection<br><br>
+Our goal is to provide a comfortable, reliable, and enjoyable GO experience for every customer, with clear information and friendly service along the way.<br><br>
+Thank you for being part of our little community. We hope every package brings you a little happiness. 🌸💗<br><br>
+With love,<br>
+<b>GO LATTE4EVER</b><br>
+your happiness, brewed with love. 💕
+</div>
+</div>
+<div class="link-section-title">✧ Social Media</div>
+<a class="link-card" href="https://x.com/golatte4ever?s=11" target="_blank"><div class="link-icon">𝕏</div><div>X / Twitter</div></a>
+<a class="link-card" href="https://www.instagram.com/latte4everr" target="_blank"><div class="link-icon">📷</div><div>Instagram</div></a>
+<a class="link-card" href="https://id.shp.ee/x3Q2CDqV" target="_blank"><div class="link-icon">🍊</div><div>Shopee</div></a>
+<div class="link-section-title">✧ Group Order Links</div>
+<a class="link-card" href="https://line.me/ti/g/Vevm_vPZh9" target="_blank"><div class="link-icon">💿</div><div>CORTIS GO</div></a>
+<a class="link-card" href="https://line.me/ti/g/2Abz2DEG9h" target="_blank"><div class="link-icon">🖤</div><div>ENHYPEN GO</div></a>
+<a class="link-card" href="https://line.me/ti/g/EVkabK5epd" target="_blank"><div class="link-icon">⭐</div><div>EVAN GO</div></a>
+<a class="link-card" href="https://line.me/ti/g/bTm8ZwggkS" target="_blank"><div class="link-icon">🎀</div><div>ALL FANDOM GO - LINE</div></a>
+<a class="link-card" href="https://chat.whatsapp.com/GNgpxF0wT7UGq8LJCzUy1N" target="_blank"><div class="link-icon">💬</div><div>ALL FANDOM GO - WhatsApp</div></a>
+<div style="height:20px"></div>
+</div>
+<div id="batch" class="sec"><div class="card"><h3>Batch Proof</h3><input id="searchHome" class="search" placeholder="Cari..."><div class="batch-tabs" id="tabsHome"></div><div id="gridHome" class="grid" style="margin-top:10px"></div></div></div>
+<div id="proofco" class="sec"><div class="card"><h3>📂 Proof CO</h3><input id="searchCO" class="search" placeholder="Cari..."><div class="batch-tabs" id="tabsCO"></div><div id="gridCO" class="grid" style="margin-top:10px"></div></div></div>
+<div id="tagihan" class="sec"><div class="card"><h3>Tagihan</h3><input id="searchTag" class="search" placeholder="Cari member..."><div class="batch-tabs" id="tabsTag"></div><div id="tagBubbles" style="margin-top:10px"></div></div></div>
+<div id="tax" class="sec"><div class="card"><h3>Tax</h3><input id="searchTax" class="search" placeholder="Cari member..."><div class="batch-tabs" id="tabsTax"></div><div id="taxBubbles" style="margin-top:10px"></div></div></div>
+<div id="arrive" class="sec"><div class="card"><h3>📦 Status Barang</h3><input id="searchArr" class="search" placeholder="Cari barang..."><div class="batch-tabs" id="tabsArr"></div><div id="arrBubbles" style="margin-top:10px"></div></div></div>
+<div id="proofwh" class="sec"><div class="card"><h3>🗺️ Proof Arrived WH</h3><input id="searchPWH" class="search" placeholder="Cari..."><div class="batch-tabs" id="tabsPWH"></div><div id="gridPWH" class="grid" style="margin-top:10px"></div></div></div>
+<div id="testi" class="sec"><div class="card" style="border:2px solid #e9839b"><h3>💌 Testimoni</h3><input id="testiName" placeholder="Nama"><textarea id="testiCap" placeholder="Caption" rows="3"></textarea><input id="testiFile" type="file" accept="image/*"><div id="testiPreview"></div><button onclick="addTesti()" style="background:#e9839b;color:#fff;width:100%;margin-top:8px;padding:10px;border:none;border-radius:10px;font-weight:900">Upload</button></div><div class="card"><h3>Testimoni Member</h3><input id="searchTesti" class="search" placeholder="Cari..."><div id="gridTesti" class="grid" style="margin-top:10px"></div></div></div>
+<div id="admin" class="sec">
+<div id="adminLock" class="lock"><h3>Khusus Admin</h3><input id="adminPassInput" type="password" placeholder="Password admin"><button onclick="loginAdmin()" style="background:#e9839b;color:#fff;width:100%;margin-top:8px;padding:8px;border:none;border-radius:8px">Login</button></div>
+<div id="adminContent" style="display:none">
+<div class="card"><h3>1. Member</h3><input id="mName" placeholder="Nama"><button onclick="addM()">Tambah</button><div id="mList"></div></div>
+<div class="card"><h3>2. Batch Proof</h3><select id="bWh"><option>KR</option><option>CH</option><option>JP</option><option>THAI</option><option>INA</option></select><input id="bName" placeholder="Nama Batch"><input id="bFile" type="file" accept="image/*"><div id="bPhotoPreview"></div><button onclick="addB()">Simpan</button></div>
+<div class="card"><h3>3. Proof CO</h3><select id="cWh"><option>KR</option><option>CH</option><option>JP</option><option>THAI</option><option>INA</option></select><input id="cName" placeholder="Nama CO"><input id="cFile" type="file" accept="image/*"><div id="cPhotoPreview"></div><button onclick="addCO()">Simpan CO</button></div>
+<div class="card"><h3>4. Proof WH</h3><select id="pWh"><option>KR</option><option>CH</option><option>JP</option><option>THAI</option><option>INA</option><option>ADMIN</option></select><input id="pName" placeholder="Nama Batch"><input id="pFile" type="file" accept="image/*"><div id="pPhotoPreview"></div><button onclick="addPWH()">Simpan WH</button></div>
+<div class="card"><h3>5. Tagihan</h3><select id="tWh"><option>KR</option><option>CH</option><option>JP</option><option>THAI</option><option>INA</option></select><input id="tBatch" placeholder="Nama Batch"><input id="tDue" type="date"><div id="tRows"></div><button onclick="addTR()">+ Tambah Orang</button><button onclick="saveT()" style="background:#e9839b;color:#fff;width:100%;margin-top:6px">Simpan Tagihan</button></div>
+<div class="card"><h3>6. Tax</h3><select id="xWh"><option>KR</option><option>CH</option><option>JP</option><option>THAI</option><option>INA</option></select><input id="xName" placeholder="Batch"><input id="xDue" type="date"><div id="xRows"></div><button onclick="addXR()">+ Tambah Orang</button><button onclick="saveX()" style="background:#e9839b;color:#fff;width:100%;margin-top:6px">Simpan Tax</button></div>
+<div class="card"><h3>7. Status Barang</h3><input id="aName" placeholder="Nama Barang"><select id="aWh"><option>KR</option><option>CH</option><option>JP</option><option>INA</option><option>THAI</option></select><select id="aSt"><option>CO</option><option>WH LUAR</option><option>FLIGHT</option><option>WH INA</option><option>ADMIN</option></select><button onclick="addA()">Add Status</button></div>
+</div>
+</div>
+<div id="photoModal" class="modal" onclick="closePhoto()"><div class="modal-close" onclick="closePhoto()">X</div><img id="modalImg" src=""></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, push, remove, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+const firebaseConfig = { apiKey: "AIzaSyAbi0cJ4aQ_E7aC65LpluryzvnmlURQRng", authDomain: "golatte4ever-9948b.firebaseapp.com", databaseURL: "https://golatte4ever-9948b-default-rtdb.firebaseio.com", projectId: "golatte4ever-9948b", storageBucket: "golatte4ever-9948b.firebasestorage.app", messagingSenderId: "1054209765066", appId: "1:1054209765066:web:67247bffe71ada8c90ce33" };
+const app = initializeApp(firebaseConfig); const db = getDatabase(app);
+let M=[], B=[], CO=[], PWH=[], T=[], X=[], A=[], TST=[]; let TR=[], XR=[]; let AD=localStorage.getItem('isAdmin')=='1';
+let photoData='', photoDataCO='', photoDataPWH='', photoDataTST='';
+let fHome='ALL', fCO='ALL', fTag='ALL', fTax='ALL', fArr='ALL', fPWH='ALL';
+let sHome='', sCO='', sTag='', sTax='', sArr='', sPWH='', sTesti=''; let sideOpen=false;
+window.toggleSidebar=()=>{var sb=document.getElementById('sidebar');var ov=document.getElementById('sidebarOverlay');sideOpen=!sideOpen;if(sideOpen){sb.classList.add('active');ov.classList.add('active')}else{sb.classList.remove('active');ov.classList.remove('active')}}
+window.goSide=(id)=>{go(id);if(sideOpen)toggleSidebar()}
+window.go=(id)=>{document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));var sb=document.getElementById('sb-'+id);if(sb)sb.classList.add('active');if(id=='batch')renderHome();if(id=='proofco')renderCO();if(id=='proofwh')renderPWH();if(id=='tagihan')renderTag();if(id=='tax')renderTax();if(id=='arrive')renderArr();if(id=='testi')renderTesti();if(id=='admin'){ck();if(AD)rM()}}
+window.openPhoto=(src)=>{document.getElementById('modalImg').src=src;document.getElementById('photoModal').classList.add('active')}
+window.closePhoto=()=>document.getElementById('photoModal').classList.remove('active')
+window.loginAdmin=()=>{var v=document.getElementById('adminPassInput').value;if(v=='latte123'){AD=true;localStorage.setItem('isAdmin','1');ck();go('admin')}else{alert('Salah')}}
+window.logoutAdmin=()=>{AD=false;localStorage.setItem('isAdmin','0');ck();go('home');if(sideOpen)toggleSidebar()}
+window.ck=()=>{var l=document.getElementById('adminLock');var c=document.getElementById('adminContent');var lo=document.getElementById('sb-logout');if(AD){document.body.classList.remove('member-mode');document.body.classList.add('admin-mode');l.style.display='none';c.style.display='block';lo.style.display='flex'}else{document.body.classList.remove('admin-mode');document.body.classList.add('member-mode');l.style.display='block';c.style.display='none';lo.style.display='none'}}
+onValue(ref(db,'v25_members'), snap=>{ M=[]; snap.forEach(ch=>{M.push({firebaseKey:ch.key, ...ch.val()})}); rM(); renderTag(); renderTax(); });
+onValue(ref(db,'v25_batches'), snap=>{ B=[]; snap.forEach(ch=>{B.push({firebaseKey:ch.key, ...ch.val()})}); renderHome(); });
+  onValue(ref(db,'v25_co'), snap=>{ CO=[]; snap.forEach(ch=>{CO.push({firebaseKey:ch.key, ...ch.val()})}); renderCO(); });
+onValue(ref(db,'v25_pwh'), snap=>{ PWH=[]; snap.forEach(ch=>{PWH.push({firebaseKey:ch.key, ...ch.val()})}); renderPWH(); });
+onValue(ref(db,'v25_tagihan'), snap=>{ T=[]; snap.forEach(ch=>{T.push({firebaseKey:ch.key, ...ch.val()})}); renderTag(); });
+onValue(ref(db,'v25_tax'), snap=>{ X=[]; snap.forEach(ch=>{X.push({firebaseKey:ch.key, ...ch.val()})}); renderTax(); });
+onValue(ref(db,'v25_arrive'), snap=>{ A=[]; snap.forEach(ch=>{A.push({firebaseKey:ch.key, ...ch.val()})}); renderArr(); });
+onValue(ref(db,'v25_testi'), snap=>{ TST=[]; snap.forEach(ch=>{TST.push({firebaseKey:ch.key, ...ch.val()})}); renderTesti(); });
+window.addM=()=>{ var n=document.getElementById('mName').value.trim();if(!n)return; push(ref(db,'v25_members'),{name:n}); document.getElementById('mName').value=''; }
+window.rM=()=>{ var d=document.getElementById('mList');d.innerHTML=''; M.forEach(m=>{ var el=document.createElement('div');el.className='member-item'; el.innerHTML=`<span>${m.name}</span> <button class=del onclick="delM('${m.firebaseKey}')">x</button>`; d.appendChild(el) }) }
+window.delM=(key)=>{remove(ref(db,'v25_members/'+key))}
+document.getElementById('bFile').addEventListener('change',function(e){var f=e.target.files[0];if(!f){photoData='';return}var r=new FileReader();r.onload=function(ev){photoData=ev.target.result;document.getElementById('bPhotoPreview').innerHTML=`<img src="${photoData}" class="batch-img">`};r.readAsDataURL(f)})
+window.addB=()=>{ var wh=document.getElementById('bWh').value;var nm=document.getElementById('bName').value.trim();if(!nm)return alert('Isi batch'); push(ref(db,'v25_batches'),{wh:wh,name:nm,photo:photoData}); document.getElementById('bName').value='';photoData='';document.getElementById('bPhotoPreview').innerHTML=''; }
+window.delB=(key)=>remove(ref(db,'v25_batches/'+key))
+window.renderHome=()=>{ var tabs=document.getElementById('tabsHome');var whs=['ALL','KR','CH','JP','THAI','INA'];tabs.innerHTML=''; whs.forEach(w=>{var btn=document.createElement('button');btn.className='batch-tab'+(fHome==w?' active':'');btn.innerText=w;btn.onclick=()=>{fHome=w;renderHome()};tabs.appendChild(btn)}); var grid=document.getElementById('gridHome');grid.innerHTML=''; var list=B.filter(b=>{var okWH=fHome=='ALL'||b.wh==fHome;var okSearch=!sHome||b.name.toLowerCase().indexOf(sHome.toLowerCase())>-1;return okWH&&okSearch}); list.forEach(b=>{var c=document.createElement('div');c.className='card';var im=b.photo?`<img class="batch-img" src="${b.photo}" onclick="openPhoto(this.src)">`:'';c.innerHTML=`<div style="font-weight:800">${b.name} - ${b.wh}</div>${im}${AD?`<button class=del onclick="delB('${b.firebaseKey}')">Hapus</button>`:''}`;grid.appendChild(c)}); }
+document.getElementById('cFile').addEventListener('change',function(e){var f=e.target.files[0];if(!f){photoDataCO='';return}var r=new FileReader();r.onload=function(ev){photoDataCO=ev.target.result;document.getElementById('cPhotoPreview').innerHTML=`<img src="${photoDataCO}" class="batch-img">`};r.readAsDataURL(f)})
+window.addCO=()=>{ var wh=document.getElementById('cWh').value;var nm=document.getElementById('cName').value.trim();if(!nm)return alert('Isi batch'); push(ref(db,'v25_co'),{wh:wh,name:nm,photo:photoDataCO}); document.getElementById('cName').value='';photoDataCO='';document.getElementById('cPhotoPreview').innerHTML=''; }
+window.delCO=(key)=>remove(ref(db,'v25_co/'+key))
+window.renderCO=()=>{ var tabs=document.getElementById('tabsCO');var whs=['ALL','KR','CH','JP','THAI','INA'];tabs.innerHTML=''; whs.forEach(w=>{var btn=document.createElement('button');btn.className='batch-tab'+(fCO==w?' active':'');btn.innerText=w;btn.onclick=()=>{fCO=w;renderCO()};tabs.appendChild(btn)}); var grid=document.getElementById('gridCO');grid.innerHTML=''; var list=CO.filter(b=>{var okWH=fCO=='ALL'||b.wh==fCO;var okSearch=!sCO||b.name.toLowerCase().indexOf(sCO.toLowerCase())>-1;return okWH&&okSearch}); list.forEach(b=>{var c=document.createElement('div');c.className='card';var im=b.photo?`<img class="batch-img" src="${b.photo}" onclick="openPhoto(this.src)">`:'';c.innerHTML=`<div style="font-weight:800">${b.name} - ${b.wh}</div>${im}${AD?`<button class=del onclick="delCO('${b.firebaseKey}')">Hapus</button>`:''}`;grid.appendChild(c)}); }
+document.getElementById('pFile').addEventListener('change',function(e){var f=e.target.files[0];if(!f){photoDataPWH='';return}var r=new FileReader();r.onload=function(ev){photoDataPWH=ev.target.result;document.getElementById('pPhotoPreview').innerHTML=`<img src="${photoDataPWH}" class="batch-img">`};r.readAsDataURL(f)})
+window.addPWH=()=>{ var wh=document.getElementById('pWh').value;var nm=document.getElementById('pName').value.trim();if(!nm)return alert('Isi batch'); push(ref(db,'v25_pwh'),{wh:wh,name:nm,photo:photoDataPWH}); document.getElementById('pName').value='';photoDataPWH='';document.getElementById('pPhotoPreview').innerHTML=''; }
+window.delPWH=(key)=>remove(ref(db,'v25_pwh/'+key))
+window.renderPWH=()=>{ var tabs=document.getElementById('tabsPWH');var whs=['ALL','KR','CH','JP','THAI','INA','ADMIN'];tabs.innerHTML=''; whs.forEach(w=>{var btn=document.createElement('button');btn.className='batch-tab'+(fPWH==w?' active':'');btn.innerText=w;btn.onclick=()=>{fPWH=w;renderPWH()};tabs.appendChild(btn)}); var grid=document.getElementById('gridPWH');grid.innerHTML=''; var list=PWH.filter(b=>{var okWH=fPWH=='ALL'||b.wh==fPWH;var okSearch=!sPWH||b.name.toLowerCase().indexOf(sPWH.toLowerCase())>-1;return okWH&&okSearch}); list.forEach(b=>{var c=document.createElement('div');c.className='card';var im=b.photo?`<img class="batch-img" src="${b.photo}" onclick="openPhoto(this.src)">`:'';c.innerHTML=`<div style="font-weight:800">${b.name} - ${b.wh}</div>${im}${AD?`<button class=del onclick="delPWH('${b.firebaseKey}')">Hapus</button>`:''}`;grid.appendChild(c)}); }
+document.getElementById('testiFile').addEventListener('change',function(e){var f=e.target.files[0];if(!f){photoDataTST='';return}var r=new FileReader();r.onload=function(ev){photoDataTST=ev.target.result;document.getElementById('testiPreview').innerHTML=`<img src="${photoDataTST}" class="testi-img">`};r.readAsDataURL(f)})
+window.addTesti=()=>{ var nm=document.getElementById('testiName').value.trim();var cap=document.getElementById('testiCap').value.trim();if(!nm||!cap||!photoDataTST)return alert('Isi dulu!'); push(ref(db,'v25_testi'),{name:nm,caption:cap,photo:photoDataTST,date:new Date().toLocaleDateString('id-ID')}); document.getElementById('testiName').value='';document.getElementById('testiCap').value='';photoDataTST='';document.getElementById('testiPreview').innerHTML=''; }
+window.delTesti=(key)=>remove(ref(db,'v25_testi/'+key))
+window.renderTesti=()=>{ var grid=document.getElementById('gridTesti');grid.innerHTML=''; var list=TST.filter(t=>{var s=sTesti.toLowerCase();return !s||t.name.toLowerCase().indexOf(s)>-1||t.caption.toLowerCase().indexOf(s)>-1}); list.slice().reverse().forEach(t=>{var c=document.createElement('div');c.className='card';c.innerHTML=`<img class="testi-img" src="${t.photo}" onclick="openPhoto(this.src)"><div style="font-weight:800">${t.name}</div><div style="font-size:11px">${t.caption}</div><div style="font-size:10px;color:#aaa">${t.date}</div>${AD?`<button class=del onclick="delTesti('${t.firebaseKey}')">Hapus</button>`:''}`;grid.appendChild(c)}); }
+window.addTR=()=>{TR.push({mid:'',amt:''});renderTR()}
+window.renderTR=()=>{ var d=document.getElementById('tRows');d.innerHTML=''; TR.forEach((r,i)=>{ var row=document.createElement('div');row.className='row'; var sel=document.createElement('select');sel.innerHTML='<option value="">Pilih Member</option>'+M.map(m=>`<option value="${m.firebaseKey}" ${String(r.mid)==String(m.firebaseKey)?'selected':''}>${m.name}</option>`).join('');sel.onchange=e=>TR[i].mid=e.target.value; var inp=document.createElement('input');inp.type='number';inp.placeholder='Rp';inp.value=r.amt;inp.oninput=e=>TR[i].amt=e.target.value; var del=document.createElement('button');del.innerText='x';del.onclick=()=>{TR.splice(i,1);renderTR()}; row.appendChild(sel);row.appendChild(inp);row.appendChild(del);d.appendChild(row) }) }
+window.saveT=()=>{ var wh=document.getElementById('tWh').value;var bn=document.getElementById('tBatch').value.trim();var due=document.getElementById('tDue').value;if(!bn)return alert('Isi batch'); var c=0; TR.forEach(r=>{ if(!r.mid||!r.amt)return; var memberObj = M.find(m=>m.firebaseKey==r.mid); push(ref(db,'v25_tagihan'),{batchName:bn,wh:wh,memberId:r.mid,memberName:memberObj?memberObj.name:'-',amount:parseInt(r.amt),due:due||new Date().toISOString().slice(0,10),st:'BELUM'}); c++; }); if(c==0)return alert('isi member'); TR=[];renderTR();document.getElementById('tBatch').value='';alert(c+' tagihan tersimpan!'); }
+window.renderTag=()=>{ var tabs=document.getElementById('tabsTag');var whs=['ALL','KR','CH','JP','THAI','INA'];tabs.innerHTML=''; whs.forEach(w=>{var b=document.createElement('button');b.className='batch-tab'+(fTag==w?' active':'');b.innerText=w;b.onclick=()=>{fTag=w;renderTag()};tabs.appendChild(b)}); var container=document.getElementById('tagBubbles');container.innerHTML=''; var filtered=T.filter(t=>{var okWH=fTag=='ALL'||t.wh==fTag;var mn=t.memberName||'';var okSearch=!sTag||mn.toLowerCase().indexOf(sTag.toLowerCase())>-1||t.batchName.toLowerCase().indexOf(sTag.toLowerCase())>-1;return okWH&&okSearch}); var groups={};filtered.forEach(t=>{var key=t.wh+'|'+t.batchName;if(!groups[key])groups[key]={wh:t.wh,batch:t.batchName,list:[]};groups[key].list.push(t)}); var sortedKeys=Object.keys(groups).sort();if(sortedKeys.length==0){container.innerHTML='<div style="text-align:center;opacity:.5">Belum ada</div>';return} sortedKeys.forEach(k=>{ var g=groups[k];var bubble=document.createElement('div');bubble.className='bubble';bubble.innerHTML=`<div class="bubble-title"><span>💰 ${g.batch}</span><span class="wh-badge">${g.wh}</span></div>`; var tbl=document.createElement('div');tbl.className='tbl';tbl.innerHTML='<table><thead><tr><th>Member</th><th>Rp</th><th>Status</th><th>Aksi</th></tr></thead><tbody></tbody></table>'; var tbody=tbl.querySelector('tbody'); g.list.forEach(t=>{ var tr=document.createElement('tr'); tr.innerHTML=`<td>${t.memberName}</td><td>Rp ${t.amount}</td><td><span class="${t.st=='LUNAS'?'s-l':'s-b'}">${t.st}</span></td><td><button class="del" onclick="window.delTag('${t.firebaseKey}')">Hapus</button><button class="${t.st=='LUNAS'?'bs':'ls'}" onclick="window.toggleTag('${t.firebaseKey}','${t.st}')">${t.st=='LUNAS'?'Belum':'Lunas'}</button></td>`; tbody.appendChild(tr) }); bubble.appendChild(tbl);container.appendChild(bubble); }); }
+window.delTag=(key)=>remove(ref(db,'v25_tagihan/'+key))
+window.toggleTag=(key,st)=>update(ref(db,'v25_tagihan/'+key),{st:st=='LUNAS'?'BELUM':'LUNAS'})
+window.addXR=()=>{XR.push({mid:'',amt:''});renderXR()}
+window.renderXR=()=>{ var d=document.getElementById('xRows');d.innerHTML=''; XR.forEach((r,i)=>{ var row=document.createElement('div');row.className='row'; var sel=document.createElement('select');sel.innerHTML='<option value="">Pilih Member</option>'+M.map(m=>`<option value="${m.firebaseKey}" ${String(r.mid)==String(m.firebaseKey)?'selected':''}>${m.name}</option>`).join('');sel.onchange=e=>XR[i].mid=e.target.value; var inp=document.createElement('input');inp.type='number';inp.placeholder='Rp';inp.value=r.amt;inp.oninput=e=>XR[i].amt=e.target.value; var del=document.createElement('button');del.innerText='x';del.onclick=()=>{XR.splice(i,1);renderXR()}; row.appendChild(sel);row.appendChild(inp);row.appendChild(del);d.appendChild(row) }) }
+window.saveX=()=>{ var wh=document.getElementById('xWh').value;var box=document.getElementById('xName').value.trim()||'Batch';var due=document.getElementById('xDue').value;var c=0; XR.forEach(r=>{ if(!r.mid||!r.amt)return; var memberObj = M.find(m=>m.firebaseKey==r.mid); push(ref(db,'v25_tax'),{item:box,wh:wh,memberId:r.mid,memberName:memberObj?memberObj.name:'-',amount:parseInt(r.amt),due:due||new Date().toISOString().slice(0,10),st:'BELUM'}); c++; }); if(c==0)return alert('isi member'); XR=[];renderXR();document.getElementById('xName').value='';alert(c+' tax tersimpan!'); }
+window.renderTax=()=>{ var tabsWH=document.getElementById('tabsTax');var whs=['ALL','KR','CH','JP','THAI','INA'];tabsWH.innerHTML=''; whs.forEach(w=>{var b=document.createElement('button');b.className='batch-tab'+(fTax==w?' active':'');b.innerText=w;b.onclick=()=>{fTax=w;renderTax()};tabsWH.appendChild(b)}); var container=document.getElementById('taxBubbles');container.innerHTML=''; var filtered=X.filter(x=>{var okWH=fTax=='ALL'||x.wh==fTax;var mn=x.memberName||'';var okSearch=!sTax||mn.toLowerCase().indexOf(sTax.toLowerCase())>-1||x.item.toLowerCase().indexOf(sTax.toLowerCase())>-1;return okWH&&okSearch}); var groups={};filtered.forEach(x=>{var key=x.item;if(!groups[key])groups[key]=[];groups[key].push(x)}); var sortedKeys=Object.keys(groups).sort();if(sortedKeys.length==0){container.innerHTML='<div style="text-align:center;opacity:.5">Belum ada</div>';return} sortedKeys.forEach(box=>{ var list=groups[box];var bubble=document.createElement('div');bubble.className='bubble';var whTag=list[0].wh||'';bubble.innerHTML=`<div class="bubble-title"><span>📦 BATCH ${box}</span><span class="wh-badge">${whTag}</span></div>`; var tbl=document.createElement('div');tbl.className='tbl';tbl.innerHTML='<table><thead><tr><th>Member</th><th>Rp</th><th>Status</th><th>Aksi</th></tr></thead><tbody></tbody></table>'; var tbody=tbl.querySelector('tbody'); list.forEach(x=>{ var tr=document.createElement('tr'); tr.innerHTML=`<td>${x.memberName}</td><td>Rp ${x.amount}</td><td><span class="${x.st=='LUNAS'?'s-l':'s-b'}">${x.st}</span></td><td><button class="del" onclick="window.delTax('${x.firebaseKey}')">Hapus</button><button class="${x.st=='LUNAS'?'bs':'ls'}" onclick="window.toggleTax('${x.firebaseKey}','${x.st}')">${x.st=='LUNAS'?'Belum':'Lunas'}</button></td>`; tbody.appendChild(tr) }); bubble.appendChild(tbl);container.appendChild(bubble); }); }
+window.delTax=(k)=>remove(ref(db,'v25_tax/'+k))
+window.toggleTax=(k,st)=>update(ref(db,'v25_tax/'+k),{st:st=='LUNAS'?'BELUM':'LUNAS'})
+window.addA=()=>{ var n=document.getElementById('aName').value.trim();if(!n)return; var wh=document.getElementById('aWh').value;var st=document.getElementById('aSt').value; push(ref(db,'v25_arrive'),{name:n,wh:wh,status:st}); document.getElementById('aName').value=''; }
+window.delArr=(k)=>remove(ref(db,'v25_arrive/'+k))
+window.renderArr=()=>{ var tabs=document.getElementById('tabsArr');var whs=['ALL','KR','CH','JP','THAI','INA'];tabs.innerHTML=''; whs.forEach(w=>{var b=document.createElement('button');b.className='batch-tab'+(fArr==w?' active':'');b.innerText=w;b.onclick=()=>{fArr=w;renderArr()};tabs.appendChild(b)}); var container=document.getElementById('arrBubbles');container.innerHTML=''; var filtered=A.filter(a=>{var okWH=fArr=='ALL'||a.wh==fArr;var okSearch=!sArr||a.name.toLowerCase().indexOf(sArr.toLowerCase())>-1;return okWH&&okSearch}); var groups={};filtered.forEach(a=>{var key=a.wh;if(!groups[key])groups[key]=[];groups[key].push(a)}); var sortedKeys=Object.keys(groups).sort(); sortedKeys.forEach(wh=>{ var list=groups[wh];var bubble=document.createElement('div');bubble.className='bubble';bubble.innerHTML=`<div class="bubble-title"><span>📦 ${wh}</span></div>`; var tbl=document.createElement('div');tbl.className='tbl';tbl.innerHTML='<table><thead><tr><th>Barang</th><th>Status</th><th>Aksi</th></tr></thead><tbody></tbody></table>'; var tbody=tbl.querySelector('tbody'); list.forEach(a=>{ var tr=document.createElement('tr');tr.innerHTML=`<td>${a.name}</td><td>${a.status}</td><td><button class="del" onclick="window.delArr('${a.firebaseKey}')">Hapus</button></td>`;tbody.appendChild(tr) }); bubble.appendChild(tbl);container.appendChild(bubble); }); }
+document.getElementById('searchHome').addEventListener('input',e=>{sHome=e.target.value;renderHome()});
+document.getElementById('searchCO').addEventListener('input',e=>{sCO=e.target.value;renderCO()});
+document.getElementById('searchPWH').addEventListener('input',e=>{sPWH=e.target.value;renderPWH()});
+document.getElementById('searchTag').addEventListener('input',e=>{sTag=e.target.value;renderTag()});
+document.getElementById('searchTax').addEventListener('input',e=>{sTax=e.target.value;renderTax()});
+document.getElementById('searchArr').addEventListener('input',e=>{sArr=e.target.value;renderArr()});
+document.getElementById('searchTesti').addEventListener('input',e=>{sTesti=e.target.value;renderTesti()});
+ck();
+if(TR.length==0){TR.push({mid:'',amt:''});renderTR()}
+if(XR.length==0){XR.push({mid:'',amt:''});renderXR()}
+</script></body></html>
